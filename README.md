@@ -1,4 +1,6 @@
-This project is no longer actively developed or maintained.
+This project is a fork of the official SoundStage VR project, originally developed by Google, for the purpose of implementing MixCast.
+
+MixCast is a tool enabling the easy creation of mixed reality video from VR experiences. Learn more about MixCast at mixcast.me!
 
 # SoundStage VR
 
