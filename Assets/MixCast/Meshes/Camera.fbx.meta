@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 24c5cb454be0ab3478de5fb2c9df38b0
-timeCreated: 1488822838
+guid: 65792ef83531c6447a1b4c71c7f019a8
+timeCreated: 1494544947
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -9,9 +9,11 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Camera
+    4300000: Box001
+    4300002: Camera
+    9500000: //RootNode
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
   animations:
@@ -34,7 +36,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 100
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
@@ -53,7 +55,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
-  importAnimation: 1
+  importAnimation: 0
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2

@@ -53,8 +53,6 @@ float2 GetPlayerBoxCoord(float3 worldPos, float4x4 worldToCam, float4x4 cameraPr
 	return float2(xFactor, yFactor);
 }
 
-#endif
-
 float GetPixelForwardDistance(float3 worldPos, float4x4 camToWorld)
 {
 	float3 camPos = mul(camToWorld, float4(0, 0, 0, 1)).xyz;
@@ -62,12 +60,11 @@ float GetPixelForwardDistance(float3 worldPos, float4x4 camToWorld)
 	return 1-step(0, dot(worldPos - camPos, camForward));
 }
 
-void ApplyCropping(float3 worldPos, float4x4 worldToCam, float4x4 camProjection, float4x4 camToWorld, inout float alpha) 
+void ApplyCropping(float3 worldPos, float4x4 worldToCam, float4x4 camProjection, float4x4 camToWorld, inout float alpha)
 {
-#ifdef CROP_PLAYER
 	float2 boxCoord = GetPlayerBoxCoord(worldPos, worldToCam, camProjection, camToWorld);
 	alpha *= step(0.001, 0.5 - abs(0.5 - boxCoord.x));
 	alpha *= step(0.001, 0.5 - abs(0.5 - boxCoord.y));
 	alpha *= GetPixelForwardDistance(worldPos, camToWorld);
-#endif
 }
+#endif

@@ -1,6 +1,6 @@
-﻿/**********************************************************************************
+/**********************************************************************************
 * Blueprint Reality Inc. CONFIDENTIAL
-* 2017 Blueprint Reality Inc.
+* 2018 Blueprint Reality Inc.
 * All Rights Reserved.
 *
 * NOTICE:  All information contained herein is, and remains, the property of
@@ -29,19 +29,30 @@ namespace BlueprintReality.Text {
         private static string curLanguage;
         public static string CurrentLanguage
         {
-            get { return curLanguage; }
+            get
+            {
+                if (string.IsNullOrEmpty(curLanguage))
+                {
+                    curLanguage = GetCheckedLanguage(curLanguage);
+                }
+                return curLanguage;
+            }
             set
             {
-                curLanguage = value;
+                curLanguage = GetCheckedLanguage(value);
                 if (LanguageChanged != null)
                     LanguageChanged();
             }
         }
+        
         public static event System.Action LanguageChanged;
 
         private static Dictionary<string, Dictionary<string,string>> languageTable;
         public static List<string> GetSupportedLanguages()
         {
+            if (languageTable == null)
+                Initialize();
+
             return new List<string>(languageTable.Keys);
         }
         
@@ -71,8 +82,11 @@ namespace BlueprintReality.Text {
             }
 
             foreach (string language in languages)
-                if( !languageTable.ContainsKey(language) )
-                    languageTable[language] = new Dictionary<string, string>();
+            {
+                string newLang = language.ToLower();
+                if (!languageTable.ContainsKey(newLang))
+                    languageTable[newLang] = new Dictionary<string, string>();
+            }
 
             int lineCount = 0;
             while (reader.Peek() > 0)
@@ -97,12 +111,13 @@ namespace BlueprintReality.Text {
 
         static bool ParseLine(string line, out string key, out List<string> vals)
         {
-            List<int> commas = new List<int>();
+            List<int> commaPositions = new List<int>();
             bool inQuotes = false;
+
             for (int i = 0; i < line.Length; i++)
             {
                 if (line[i] == ',' && inQuotes == false)
-                    commas.Add(i);
+                    commaPositions.Add(i);
                 else if (line[i] == '"' && (i == 0 || line[i - 1] != '\\'))
                     inQuotes = !inQuotes;
             }
@@ -114,27 +129,28 @@ namespace BlueprintReality.Text {
                 return false;
             }
 
-            key = line.Substring(0, commas[0]);
-            key = key.Trim();
+            key = line
+                .Substring(0, commaPositions[0])
+                .Trim('"')
+                .Trim();
+
             vals = new List<string>();
 
             if (key.Length == 0)
                 return true;
    
-            for (int i = 0; i < commas.Count; i++)
+            for (int i = 0; i < commaPositions.Count; i++)
             {
-                int firstBreakIndex = commas[i];
-                int secondBreakIndex;
-                if (i < commas.Count - 1)
-                    secondBreakIndex = commas[i + 1];
-                else
-                    secondBreakIndex = line.Length;
+                int firstBreakIndex = commaPositions[i];
 
-                string val = line.Substring(firstBreakIndex + 1, secondBreakIndex - firstBreakIndex - 1);
-                val = val.Trim();
+                int secondBreakIndex = i < commaPositions.Count - 1 ?
+                    commaPositions[i + 1] :
+                    line.Length;
 
-                if (val.Length > 0 && val.StartsWith("\"") && val.EndsWith("\""))
-                    val = val.Substring(1, val.Length - 2);
+                string val = line
+                    .Substring(firstBreakIndex + 1, secondBreakIndex - firstBreakIndex - 1)
+                    .Trim('"')
+                    .Trim();
 
                 vals.Add(val);
             }
@@ -147,15 +163,67 @@ namespace BlueprintReality.Text {
             if (languageTable == null)
                 Initialize();
 
-            string lang = CurrentLanguage;
-            if (string.IsNullOrEmpty(lang))
-                lang = DEFAULT_LANG;
+            return Get(CurrentLanguage, key);
+        }
 
-            Dictionary<string,string> valTable = languageTable[lang];
+        public static string Get(string lang, string key)
+        {
+            if (languageTable == null)
+                Initialize();
+
+            lang = lang.ToLower();
+            Dictionary<string, string> valTable = languageTable[lang];
             if (valTable.ContainsKey(key))
                 return valTable[key];
             else
                 return string.Format(NOT_FOUND_STR_FORMAT, key);
+        }
+
+        public static Dictionary<string, string> GetAllLanguageTextFromKey(string key)
+        {
+            if (languageTable == null)
+                Initialize();
+
+            Dictionary<string, string> keyTable = new Dictionary<string, string>();
+
+            foreach(var lang in GetSupportedLanguages())
+            {
+                Dictionary<string, string> valTable = languageTable[lang];
+
+                if (valTable.ContainsKey(key))
+                    keyTable.Add(lang, valTable[key]);
+            }
+
+            return keyTable;
+
+        }
+
+        private static string checkedLanguage = null;
+        private static string GetCheckedLanguage(string language)
+        {
+            if (string.IsNullOrEmpty(language))
+            {
+                if (string.IsNullOrEmpty(checkedLanguage))
+                {
+                    checkedLanguage = Application.systemLanguage.ToString().ToLower();
+                    if (checkedLanguage.Equals("chinese"))
+                    {
+                        checkedLanguage = "chinesesimplified";
+                    }
+
+                    Debug.Log("LOC: Current system language is " + checkedLanguage);
+
+                    Debug.Log("LOC: Checking if " + checkedLanguage + " is supported");
+
+                    if (!GetSupportedLanguages().Contains(checkedLanguage))
+                    {
+                        Debug.Log("LOC: " + checkedLanguage + " is not supported, reverting to " + DEFAULT_LANG);
+                        checkedLanguage = DEFAULT_LANG;
+                    }
+                }
+                language = checkedLanguage;
+            }
+            return language;
         }
 	}
 }

@@ -20,11 +20,14 @@ GameObject:
   m_Component:
   - component: {fileID: 4807584211900224}
   - component: {fileID: 114387795612189672}
+  - component: {fileID: 114883859102679082}
   - component: {fileID: 114882957720100774}
-  - component: {fileID: 114920631294231326}
   - component: {fileID: 114432745998603220}
   - component: {fileID: 114221173572798252}
-  - component: {fileID: 114798872038410704}
+  - component: {fileID: 114009383172336032}
+  - component: {fileID: 114843964251711528}
+  - component: {fileID: 114567729737617198}
+  - component: {fileID: 114524411711415922}
   m_Layer: 0
   m_Name: MixCast Cameras
   m_TagString: Untagged
@@ -45,6 +48,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114009383172336032
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1686599345119304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f444419fd9d5b594cbfb247c5ec62da6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114221173572798252
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -85,6 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraPrefab: {fileID: 114331437827725006, guid: dcd2bdbef2efcf444b2285f85f1795da,
     type: 2}
+  keepCameraWhenChangingScene: 1
 --- !u!114 &114432745998603220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -96,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3764865df34b5c543ad2d117f6e3287e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114798872038410704
+--- !u!114 &114524411711415922
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -104,10 +119,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 1686599345119304}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 396eb7194c416134e9c14862125dbd7d, type: 3}
+  m_Script: {fileID: 11500000, guid: 87e803f043adbe84284f2a0564edcff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logFileName: MixCastSDKLog.txt
+--- !u!114 &114567729737617198
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1686599345119304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d862a374e56daf41ae0c592ea69f1b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  warnOn32BitBuild: 1
+--- !u!114 &114843964251711528
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1686599345119304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6516d44dbfdb7bd499c39494e42193d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114882957720100774
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -120,13 +157,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   angleStep: 30
-  cwKey: 91
-  cwModifier1: 306
-  cwModifier2: 305
-  ccwKey: 93
-  ccwModifier1: 306
-  ccwModifier2: 305
---- !u!114 &114920631294231326
+  clockwiseKeys: 5b000000
+  counterClockwiseKeys: 5d000000
+  modifiers: 3201000031010000
+--- !u!114 &114883859102679082
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -134,8 +168,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1686599345119304}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: effe5318b2000d348860a4648401a25a, type: 3}
+  m_Script: {fileID: 11500000, guid: ba08dc377e97b9d419f9f20413330cf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  handle: 0
-  saveToSettings: 0

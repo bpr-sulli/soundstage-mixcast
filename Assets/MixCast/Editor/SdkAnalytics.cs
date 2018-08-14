@@ -1,6 +1,6 @@
-﻿/**********************************************************************************
+/**********************************************************************************
 * Blueprint Reality Inc. CONFIDENTIAL
-* 2017 Blueprint Reality Inc.
+* 2018 Blueprint Reality Inc.
 * All Rights Reserved.
 *
 * NOTICE:  All information contained herein is, and remains, the property of
@@ -12,6 +12,7 @@
 * Dissemination of this information or reproduction of this material is strictly
 * forbidden unless prior written permission is obtained from Blueprint Reality Inc.
 ***********************************************************************************/
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 #define ALLOW_ANALYTICS     // <---- Feel free to disable if preferred
 
 using System.Collections;
@@ -78,3 +79,4 @@ namespace BlueprintReality.MixCast {
 	}
 #endif
 }
+#endif

@@ -1,4 +1,19 @@
-﻿/*======= (c) Blueprint Reality Inc., 2017. All rights reserved =======*/
+/**********************************************************************************
+* Blueprint Reality Inc. CONFIDENTIAL
+* 2018 Blueprint Reality Inc.
+* All Rights Reserved.
+*
+* NOTICE:  All information contained herein is, and remains, the property of
+* Blueprint Reality Inc. and its suppliers, if any.  The intellectual and
+* technical concepts contained herein are proprietary to Blueprint Reality Inc.
+* and its suppliers and may be covered by Patents, pending patents, and are
+* protected by trade secret or copyright law.
+*
+* Dissemination of this information or reproduction of this material is strictly
+* forbidden unless prior written permission is obtained from Blueprint Reality Inc.
+***********************************************************************************/
+
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -58,7 +73,7 @@ namespace BlueprintReality.MixCast
         }
 
         [MenuItem("MixCast/Check for Updates")]
-        static void RunCheck()
+        public static void RunCheck()
         {
             coroutines.Add(CheckForUpdates(false));
         }
@@ -77,7 +92,7 @@ namespace BlueprintReality.MixCast
                 yield break;
             }
 
-            if(MixCast.IsVersionLater(MixCast.VERSION_STRING, www.text) )
+            if(MixCast.IsVersionBLaterThanVersionA(MixCast.VERSION_STRING, www.text) )
             {
                 int result = EditorUtility.DisplayDialogComplex("Update Available", string.Format("MixCast has a new version available ({0})!", www.text), "Get It Now", "Get It Later", "Ignore MixCast updates");
                 switch(result)
@@ -94,7 +109,7 @@ namespace BlueprintReality.MixCast
                         yield break;
                 }
             }
-            else if( MixCast.IsVersionLater(www.text, MixCast.VERSION_STRING) )
+            else if( MixCast.IsVersionBLaterThanVersionA(www.text, MixCast.VERSION_STRING) )
             {
                 NextCheckTime = DateTime.UtcNow + new TimeSpan(0, UNCHANGED_COOLDOWN_MINUTES, 0);
 
@@ -102,7 +117,7 @@ namespace BlueprintReality.MixCast
                     EditorUtility.DisplayDialog("Wow!", string.Format("Your MixCast version is ahead of the public release ({0})!", www.text), "OK");
             }
             else
-            { 
+            {
                 NextCheckTime = DateTime.UtcNow + new TimeSpan(0, UNCHANGED_COOLDOWN_MINUTES, 0);
 
                 if( !headless )
@@ -111,3 +126,4 @@ namespace BlueprintReality.MixCast
         }
     }
 }
+#endif
